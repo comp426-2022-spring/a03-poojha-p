@@ -1,21 +1,18 @@
-//Express
-const express = require('express')
+//import {coinFlip, coinFlips, countFlips, flipACoin} from "./modules/coin.mjs"
+//import { createRequire } from 'module';
 
-//local access to express
+const express = require('express')
 const app = express()
 
-// app object has lots of useful methods
-// get(), post(), put(), delete(), REST framework!
-//app.get('/', (req, res))
-// '/' represents root of website url
+const args = require('minimist')(process.argv.slice(2))
 
-const args = require('minimist')(process.argv.slice(2));
+args['port']
 
-var port = args.port || 5000
+const port = args['port'] || process.env.PORT || 5000
 
 const server = app.listen(port, () => {
-    console.log('App is running on port %PORT%'.replace('%PORT%', port))
-})
+    console.log('App listening on port %PORT%'.replace('%PORT%',port))
+});
 
 function coinFlip() {
     return (Math.random() > 0.5 ? 'heads' : 'tails');
@@ -23,15 +20,15 @@ function coinFlip() {
 
 function coinFlips(flips) {
     let arr_coins = [];
-
+  
     if (!flips) {
-        arr_coins.push(coinFlip());
+      arr_coins.push(coinFlip());
     } else {
-        for (var i = 0; i < flips; i++) {
-            Math.random() > 0.5 ? arr_coins.push("heads") : arr_coins.push("tails");
-        }
+      for (var i = 0; i < flips; i++) {
+        Math.random() > 0.5 ? arr_coins.push("heads") : arr_coins.push("tails");
+      }
     }
-
+  
     return arr_coins;
 }
 
@@ -47,13 +44,13 @@ function countFlips(array) {
     }
   
     if (heads > 0 && tails == 0) {
-      return `{ heads: ${heads}}`
+      return { "heads": heads}
     } else if (tails > 0 && heads == 0) {
-      return `{ tails: ${tails}}`
+      return { "tails": tails}
     } else {
-      return `{ heads: ${heads}, tails: ${tails} }`
+      return { "heads": heads, "tails": tails }
     }
-  }
+}
 
 function flipACoin(call) {
     var verdict = 'win';
@@ -63,41 +60,44 @@ function flipACoin(call) {
       verdict = 'lose';
     }
   
-    return `{ call: ${call}, flip: ${flip}, result: ${verdict} }`;
-  }
+    return { 'call': call, 'flip': flip, 'result': verdict };
+}
 
 app.get('/app/', (req, res) => {
-    //route handler
-    res.status(200).end('OK')
-    //what does this line mean? why 'text/plain?'
-    res.type('text/plain')
+    res.statusCode = 200;
+    res.statusMessage = 'OK';
+    res.writeHead(res.statusCode, {'Content-Type' : 'text/plain'});
+    res.end(res.statusCode+ ' ' +res.statusMessage)
 });
 
-app.get('/app/flip', (req, res) => {
-    res.status(200)
-    res.type('text/plain')
-    res.json({'flip': coinFlip()})
+app.get('/app/flip/', (req, res) => {
+    res.status(200);
+    const ans = coinFlip();
+    const flipResult = {"flip" : ans};
+    res.json(flipResult);
 });
 
-app.get('/app/flips/:number', (req, res) => {
-    res.status(200)
-    var flip = coinFlips(req.params.number)
-    res.json({'raw': flip, 'summary': countFlips(flip)})
+app.get('/app/flips/:number/', (req, res) => {
+    res.status(200);
+    const flips = req.params.number || 1;
+    const values = coinFlips(flips);
+    const rawjson = {
+        "raw" : values,
+        "summary": countFlips(values)
+    };
+    res.json(rawjson)
 });
 
-app.get('/app/flip/call/heads', (req, res) => {
-    res.status(200)
-    res.json(flipACoin('heads'))    
+app.get('/app/flip/call/heads/', (req, res) => {
+    res.status(200);
+    res.json(flipACoin('heads'));
 });
 
-app.get('/app/flip/call/tails', (req, res) => {
-    res.status(200)
-    res.type('text/plain')
-    res.json(flipACoin('tails'))
-})
+app.get('/app/flip/call/tails/', (req, res) => {
+    res.status(200);
+    res.json(flipACoin('tails'));
+});
 
-app.use(function(req, res) {
-    res.status(404).send('404 ERROR')
-    res.type('text/plain')
-})
-
+app.use(function(req, res){
+    res.status(404).send('404 NOT FOUND')
+});
