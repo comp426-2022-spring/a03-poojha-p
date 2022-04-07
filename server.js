@@ -44,11 +44,11 @@ function countFlips(array) {
     }
   
     if (heads > 0 && tails == 0) {
-      return `{ heads: ${heads}}`
+      return { "heads": heads}
     } else if (tails > 0 && heads == 0) {
-      return `{ tails: ${tails}}`
+      return { "tails": tails}
     } else {
-      return `{ heads: ${heads}, "tails": ${tails} }`
+      return { "heads": heads, "tails": tails }
     }
 }
 
@@ -60,7 +60,7 @@ function flipACoin(call) {
       verdict = 'lose';
     }
   
-    return `{ call: ${call}, flip: ${flip}, result: ${verdict} }`;
+    return { 'call': call, 'flip': flip, 'result': verdict };
 }
 
 app.get('/app/', (req, res) => {
