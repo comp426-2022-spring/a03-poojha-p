@@ -51,3 +51,14 @@ function countFlips(array) {
     return { "heads": heads, "tails": tails }
   }
 }
+
+function flipACoin(call) {
+  var verdict = 'win';
+  var flip = coinFlip();
+
+  if (!(call == flip)) {
+    verdict = 'lose';
+  }
+
+  return { 'call': call, 'flip': flip, 'result': verdict };
+}
