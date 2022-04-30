@@ -1,22 +1,24 @@
-//Express
-const express = require('express')
+//import {coinFlip, coinFlips, countFlips, flipACoin} from "./modules/coin.mjs"
+//import { createRequire } from 'module';
 
-//local access to express
+const express = require('express')
 const app = express()
 
-// app object has lots of useful methods
-// get(), post(), put(), delete(), REST framework!
-//app.get('/', (req, res))
-// '/' represents root of website url
+const args = require('minimist')(process.argv.slice(2))
 
-const args = require('minimist')(process.argv.slice(2));
+args['port']
 
-var port = args.port || 5000
+const port = args['port'] || 5000
 
 const server = app.listen(port, () => {
-    console.log('App is running on port %PORT%'.replace('%PORT%', port))
+<<<<<<< HEAD
+console.log("App is running on port %PORT%".replace("%PORT%", port))
 })
 
 function coinFlip() {
     return (Math.random() > 0.5 ? 'heads' : 'tails');
 }
+=======
+  console.log("App is running on port %PORT%".replace("%PORT%", port))
+});
+>>>>>>> 81439bb856becae2ca38be1288a6efa7cf08e601
