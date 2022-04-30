@@ -31,3 +31,23 @@ function coinFlips(flips) {
 
   return arr_coins;
 }
+
+function countFlips(array) {
+  var heads = 0;
+  var tails = 0;
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] == "heads") {
+      heads++;
+    } else {
+      tails++;
+    }
+  }
+
+  if (heads > 0 && tails == 0) {
+    return { "heads": heads}
+  } else if (tails > 0 && heads == 0) {
+    return { "tails": tails}
+  } else {
+    return { "heads": heads, "tails": tails }
+  }
+}
