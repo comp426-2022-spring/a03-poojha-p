@@ -11,14 +11,5 @@ args['port']
 const port = args['port'] || 5000
 
 const server = app.listen(port, () => {
-<<<<<<< HEAD
-console.log("App is running on port %PORT%".replace("%PORT%", port))
-})
-
-function coinFlip() {
-    return (Math.random() > 0.5 ? 'heads' : 'tails');
-}
-=======
   console.log("App is running on port %PORT%".replace("%PORT%", port))
 });
->>>>>>> 81439bb856becae2ca38be1288a6efa7cf08e601
