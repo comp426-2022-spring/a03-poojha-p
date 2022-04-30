@@ -89,3 +89,8 @@ app.get('/app/flips/:number/', (req, res) => {
   };
   res.json(rawjson)
 });
+
+app.get('/app/flip/call/heads/', (req, res) => {
+  res.status(200);
+  res.json(flipACoin('heads'));
+});
