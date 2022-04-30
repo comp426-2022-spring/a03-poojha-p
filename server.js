@@ -71,3 +71,10 @@ app.get('/app/', (req, res) => {
   res.writeHead(res.statusCode, {'Content-Type' : 'text/plain'});
   res.end(res.statusCode+ ' ' +res.statusMessage)
 });
+
+app.get('/app/flip/', (req, res) => {
+  res.status(200);
+  const ans = coinFlip();
+  const flipResult = {"flip" : ans};
+  res.json(flipResult);
+});
